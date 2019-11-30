@@ -1,0 +1,16 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    text-align: center;
+}
+.container{
+    align-content: center;
+}
+table, th, td {
+    border: 1px solid black;
+  }
+  table{
+      width: 400px;
+      height: 600px;
+  }

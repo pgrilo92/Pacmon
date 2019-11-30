@@ -1,5 +1,5 @@
 $(function(){
-    let i = 2
+    let i = 8
     $('body').keypress((evt)=>{
         let key = evt.which
         if(key == 39){
@@ -8,9 +8,10 @@ $(function(){
         }
     })
     $('button').on('click', ()=>{
-        if(i <=5 ){
-            let $moveRight = $('#pacmon').detach().appendTo(`#${i}`)
+        if(i < 17){
             i++
+            let $moveRight = $('#pacmon').detach().appendTo(`#r18c${i}`)
+            
         }
     })
 })

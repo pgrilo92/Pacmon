@@ -15,7 +15,7 @@ In this project I will be recreating my own version of the classic game Pacman. 
 
 - The arrow keys will be available in order to change the direction of Pacmon
 - Goal is to eat all the pac-dots available
-- Eating the the Power Pellet will temporarily enable the ghosts to be eaten by turning them to blue
+- Eating the the Energizer will temporarily enable the ghosts to be eaten by turning them to blue
 - Stay away! Ghosts will take Pacmon's life if in contact
 - Pacmon will be given 3 lives
 - Fruits might pop up randomly which will give Pacmon extra points

@@ -5,12 +5,24 @@ body{
     text-align: center;
 }
 .container{
-    align-content: center;
+    display: flex;
+    justify-content: center;
 }
 table, th, td {
     border: 1px solid black;
-  }
-  table{
-      width: 400px;
-      height: 600px;
-  }
+}
+
+td{
+    width: 20px;
+    height: 20px;
+}
+img{
+    max-width: 25px;
+    max-height: 32px;
+    position: absolute;
+}
+button{
+    max-width: 25px;
+    max-height: 32px;
+    color: blue;
+}

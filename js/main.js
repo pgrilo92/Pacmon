@@ -1,5 +1,6 @@
 $(function(){
-    let i = 8
+    let collumnNumber = 8
+    let rowNumber = 18
     $('body').keypress((evt)=>{
         let key = evt.which
         if(key == 39){
@@ -7,11 +8,28 @@ $(function(){
             return false
         }
     })
-    $('button').on('click', ()=>{
-        if(i < 17){
-            i++
-            let $moveRight = $('#pacmon').detach().appendTo(`#r18c${i}`)
-            
+    $('#up-btn').on('click', ()=>{
+        if(rowNumber > 1){
+            rowNumber--
+            let $moveRight = $('#pacmon').detach().appendTo(`#r${rowNumber}c${collumnNumber}`)
+        }
+    })
+    $('#right-btn').on('click', ()=>{
+        if(collumnNumber < 16){
+            collumnNumber++
+            let $moveRight = $('#pacmon').detach().appendTo(`#r${rowNumber}c${collumnNumber}`)
+        }
+    })
+    $('#down-btn').on('click', ()=>{
+        if(rowNumber < 20){
+            rowNumber++
+            let $moveRight = $('#pacmon').detach().appendTo(`#r${rowNumber}c${collumnNumber}`)
+        }
+    })
+    $('#left-btn').on('click', ()=>{
+        if(collumnNumber > 1){
+            collumnNumber--
+            let $moveRight = $('#pacmon').detach().appendTo(`#r${rowNumber}c${collumnNumber}`)
         }
     })
 })

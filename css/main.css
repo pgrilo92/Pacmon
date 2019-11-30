@@ -21,8 +21,17 @@ img{
     max-height: 32px;
     position: absolute;
 }
-button{
-    max-width: 25px;
-    max-height: 32px;
-    color: blue;
+.arrow-buttons{
+    max-width: 40px;
+    max-height: 40px;
+    color: black;
+    background-color: grey;
+}
+
+.button-row{
+    display: flex;
+    justify-content: center;
+}
+footer{
+    margin: 50px;
 }

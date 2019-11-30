@@ -14,11 +14,13 @@ In this project I will be recreating my own version of the classic game Pacman. 
 ## Instructions
 
 - The arrow keys will be available in order to change the direction of Pacmon
-- Goal is to eat all the coins available
-- Eating the bigger coins will temporarily enable the ghosts to be eaten by turning them to blue
+- Goal is to eat all the pac-dots available
+- Eating the the Power Pellet will temporarily enable the ghosts to be eaten by turning them to blue
 - Stay away! Ghosts will take Pacmon's life if in contact
 - Pacmon will be given 3 lives
-- Cherries might pop up randomly which will give Pacmon an extra life
+- Fruits might pop up randomly which will give Pacmon extra points
+- When 10000 pts are reached, pacmon will be given another life once
+- Ghost names: Inky, Pinky, Blinky and Clyde
 
 ### Pulling
 Code will be available for anyone to pull.

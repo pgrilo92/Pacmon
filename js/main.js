@@ -7,7 +7,7 @@
     //let pacmonSpeedTimer = 300
 /*---- Classes ---*/
 let pacmon
-class Characters {
+class Game {
     constructor(name, speed, sprite, alive, columnNumber, rowNumber, timeID) {
         this.name = name
         this.speed = speed
@@ -22,7 +22,7 @@ class Characters {
     moveDownFunc() {}
     moveLeftFunc() {}
 }
-class Pacmon extends Characters {
+class Pacmon extends Game {
     constructor(name, speed, sprite, alive, columnNumber, rowNumber, timeID, lives) {
         super(name, speed, sprite, alive, columnNumber, rowNumber, timeID)
         this.lives = lives

@@ -7,14 +7,23 @@ $(function(){
     let pacmonSpeedTimer = 300
 /*---- Classes ---*/
 /*----- Moving functions for Pacmon -----*/
-    $('body').keypress((evt)=>{
+document.addEventListener('keydown', (evt)=> {
         let key = evt.which
-        if(key == 39){
-            $('button').trigger('click')
+        if(key == 38) {
+            $('#up-btn').trigger('click')
+            return false
+        } else if(key == 39) {
+            $('#right-btn').trigger('click')
+            return false
+        } else if(key == 40) {
+            $('#down-btn').trigger('click')
+            return false
+        } else if(key == 37) {
+            $('#left-btn').trigger('click')
             return false
         }
     })
-    $('#up-btn').on('click', ()=>{
+    $('#up-btn').on('click', ()=> {
         clearInterval(timeID)
         function moveUpFunc(){
             if(rowNumber > 1 ){
@@ -74,9 +83,9 @@ $(function(){
         timeID = setInterval(moveLeftFunc, pacmonSpeedTimer)
         checkWallCollider = setInterval(touchPellet, pacmonSpeedTimer)
     })
-    function hitWall() {
-        //if($('#pacmon').a)
-    }
+    // function hitWall() {
+    //     //if($('#pacmon').a)
+    // }
     function touchPellet() {
         let x = $('#pacmon').parent()
         let y = $('.barrier').parent()

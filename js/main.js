@@ -29,7 +29,7 @@ document.addEventListener('keydown', (evt)=> {
             if(rowNumber > 1 ){
                 rowNumber--
                 let $moveRight= $('#pacmon').detach().appendTo(`#r${rowNumber}c${collumnNumber}`).show('slow')
-            } else if(rowNumber <= 1 || changeDirection === true) {
+            } else if(rowNumber <= 1 || changeDirection === true || $('.barrier').parent()) {
                 clearInterval(timeID)
                 clearInterval(checkWallCollider)
                 changeDirection = false
@@ -44,7 +44,7 @@ document.addEventListener('keydown', (evt)=> {
             if(collumnNumber < 17 ){
                 collumnNumber++
                 let $moveRight= $('#pacmon').detach().appendTo(`#r${rowNumber}c${collumnNumber}`).show('slow')
-            } else if(collumnNumber >= 20 || changeDirection === true) {
+            } else if(collumnNumber >= 20 || changeDirection === true || $('.barrier').parent()) {
                 clearInterval(timeID)
                 clearInterval(checkWallCollider)
                 changeDirection = false
@@ -59,7 +59,7 @@ document.addEventListener('keydown', (evt)=> {
             if(rowNumber < 20 ){
                 rowNumber++
                 let $moveRight= $('#pacmon').detach().appendTo(`#r${rowNumber}c${collumnNumber}`).show('slow')
-            } else if(rowNumber >= 20 || changeDirection === true) {
+            } else if(rowNumber >= 20 || changeDirection === true || $('.barrier').parent()) {
                 clearInterval(timeID)
                 clearInterval(checkWallCollider)
                 changeDirection = false
@@ -74,7 +74,7 @@ document.addEventListener('keydown', (evt)=> {
             if(collumnNumber > 1 ){
                 collumnNumber--
                 let $moveRight= $('#pacmon').detach().appendTo(`#r${rowNumber}c${collumnNumber}`).show('slow')
-            } else if(collumnNumber <= 1 || changeDirection === true) {
+            } else if(collumnNumber <= 1 || changeDirection === true || $('.barrier').parent()) {
                 clearInterval(timeID)
                 clearInterval(checkWallCollider)
                 changeDirection = false
@@ -91,11 +91,11 @@ document.addEventListener('keydown', (evt)=> {
         let y = $('.barrier').parent()
         console.log(x)
         console.log(y)
-        let z = y.some(x)
         
-        if(z===true) {
-            clearInterval(timeID)
-            clearInterval(checkWallCollider)
-        }
+        
+        // if(z===true) {
+        //     clearInterval(timeID)
+        //     clearInterval(checkWallCollider)
+        // }
     }
 })

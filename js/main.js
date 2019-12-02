@@ -6,7 +6,7 @@
     //let timeID
     //let pacmonSpeedTimer = 300
 /*---- Classes ---*/
-
+let pacmon
 class Characters {
     constructor(name, speed, sprite, alive, columnNumber, rowNumber, timeID) {
         this.name = name
@@ -74,7 +74,7 @@ class Pacmon extends Characters {
         }
     })
     $('#play-btn').on('click', ()=> {
-        let pacmon = new Pacmon('pacmon', 300, '/images/pacman.png', true, 8, 18, undefined, 3)
+        pacmon = new Pacmon('pacmon', 300, '/images/pacman.png', true, 8, 18, undefined, 3)
         console.log(pacmon)
     })
     $('#up-btn').on('click', ()=> {

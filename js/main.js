@@ -4,7 +4,7 @@ $(function(){
     let rowNumber = 18
     let changeDirection = false
     let timeID
-    let pacmonSpeedTimer = 600
+    let pacmonSpeedTimer = 300
 /*---- Classes ---*/
 /*----- Moving functions for Pacmon -----*/
     $('body').keypress((evt)=>{
@@ -22,10 +22,12 @@ $(function(){
                 let $moveRight= $('#pacmon').detach().appendTo(`#r${rowNumber}c${collumnNumber}`).show('slow')
             } else if(rowNumber <= 1 || changeDirection === true) {
                 clearInterval(timeID)
+                clearInterval(checkWallCollider)
                 changeDirection = false
             }
         }
         timeID = setInterval(moveUpFunc, pacmonSpeedTimer)
+        checkWallCollider = setInterval(touchPellet, pacmonSpeedTimer)
     })
     $('#right-btn').on('click', ()=>  {
         clearInterval(timeID)
@@ -35,10 +37,12 @@ $(function(){
                 let $moveRight= $('#pacmon').detach().appendTo(`#r${rowNumber}c${collumnNumber}`).show('slow')
             } else if(collumnNumber >= 20 || changeDirection === true) {
                 clearInterval(timeID)
+                clearInterval(checkWallCollider)
                 changeDirection = false
             }
         }
         timeID = setInterval(moveRightFunc, pacmonSpeedTimer)
+        checkWallCollider = setInterval(touchPellet, pacmonSpeedTimer)
     })
     $('#down-btn').on('click', ()=>{
         clearInterval(timeID)
@@ -48,10 +52,12 @@ $(function(){
                 let $moveRight= $('#pacmon').detach().appendTo(`#r${rowNumber}c${collumnNumber}`).show('slow')
             } else if(rowNumber >= 20 || changeDirection === true) {
                 clearInterval(timeID)
+                clearInterval(checkWallCollider)
                 changeDirection = false
             }
         }
         timeID = setInterval(moveDownFunc, pacmonSpeedTimer)
+        checkWallCollider = setInterval(touchPellet, pacmonSpeedTimer)
     })
     $('#left-btn').on('click', ()=>{
         clearInterval(timeID)
@@ -61,10 +67,26 @@ $(function(){
                 let $moveRight= $('#pacmon').detach().appendTo(`#r${rowNumber}c${collumnNumber}`).show('slow')
             } else if(collumnNumber <= 1 || changeDirection === true) {
                 clearInterval(timeID)
+                clearInterval(checkWallCollider)
                 changeDirection = false
             }
         }
         timeID = setInterval(moveLeftFunc, pacmonSpeedTimer)
+        checkWallCollider = setInterval(touchPellet, pacmonSpeedTimer)
     })
-/
+    function hitWall() {
+        //if($('#pacmon').a)
+    }
+    function touchPellet() {
+        let x = $('#pacmon').parent()
+        let y = $('.barrier').parent()
+        console.log(x)
+        console.log(y)
+        let z = y.some(x)
+        
+        if(z===true) {
+            clearInterval(timeID)
+            clearInterval(checkWallCollider)
+        }
+    }
 })

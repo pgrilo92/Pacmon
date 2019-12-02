@@ -1,10 +1,10 @@
-*{
+* {
     box-sizing: border-box;
 }
-body{
+body {
     text-align: center;
 }
-.container{
+.container {
     display: flex;
     justify-content: center;
 }
@@ -12,27 +12,31 @@ table, th, td {
     border: 1px solid black;
 }
 
-td{
+td {
     width: 20px;
     height: 20px;
     font-size: 11px;
 }
-img{
+img {
     max-width: 25px;
     max-height: 32px;
-    position: absolute;
+    /*position: absolute;*/
 }
-.arrow-buttons{
+.barrier {
+    background-color: blue;
+}
+.arrow-buttons {
     max-width: 40px;
     max-height: 40px;
     color: black;
     background-color: grey;
 }
 
-.button-row{
+.button-row {
     display: flex;
     justify-content: center;
 }
-footer{
+
+footer {
     margin: 50px;
 }

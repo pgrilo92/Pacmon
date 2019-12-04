@@ -7,8 +7,9 @@ let gameBoard
 let angle = 0
 let gamePoints = 0
 let pointBoardText = document.getElementById('message-text')
-let pointsTextValue = `Points: ${gamePoints}`
 let ghostDirection
+let ghostCol
+let ghostRow
 /*----Moving Functions ----*/
 function moveUpFunc() {
         gameBoard[rowNumber][columnNumber].char = ''
@@ -41,6 +42,17 @@ function moveLeftFunc() {
         newRender()
         $('#pacmon').css('transform','scaleX(-1)');
 }
+// function moveGhost {
+//     if (ghostDirection = 'up') {
+//         if (gameBoard.char === 'g')
+//     } else if (ghostDirection = 'right') {
+
+//     } else if (ghostDirection = 'down') {
+
+//     } else if (ghostDirection = 'left') {
+
+//     }
+// }
 
 /*----- Button inputs for Pacmon -----*/
 document.addEventListener('keydown', (evt)=> {
@@ -96,6 +108,11 @@ function nextMove() {
             gamePoints += 100
             moveRightFunc()
             pointBoardText.innerHTML = `Points: ${gamePoints}`
+        }  else if (gameBoard[rowNumber][columnNumber + 1].char === '=') {
+            gameBoard[rowNumber][columnNumber].char = ''
+            rowNumber = 10
+            columnNumber = 1
+            gameBoard[rowNumber][columnNumber].char = 'p'
         } else {
             moveRightFunc()
         }
@@ -118,6 +135,11 @@ function nextMove() {
             gamePoints += 100
             moveLeftFunc()
             pointBoardText.innerHTML = `Points: ${gamePoints}`
+        }  else if (gameBoard[rowNumber][columnNumber - 1].char === '-') {
+            gameBoard[rowNumber][columnNumber].char = ''
+            rowNumber = 10
+            columnNumber = 14
+            gameBoard[rowNumber][columnNumber].char = 'p'
         } else {
             moveLeftFunc()
         }
@@ -141,7 +163,7 @@ function start() {
         ['+', '+', '+', 'c', '+', 'c', ' ', ' ', ' ', ' ', ' ', 'c', '+', 'c', '+', '+', '+'],//7
         [' ', ' ', '+', ' ', ' ', 'c', '+', ' ', 'g', ' ', '+', ' ', '+', ' ', '+', ' ', ' '],//8
         ['+', '+', '+', ' ', ' ', 'c', '+', 'g', ' ', 'g', '+', ' ', ' ', ' ', '+', '+', '+'],//9
-        ['-', ' ', '=', ' ', ' ', 'c', '+', ' ', 'g', ' ', '+', ' ', ' ', ' ', '=', ' ', '-'],//10
+        ['-', ' ', ' ', ' ', ' ', 'c', '+', ' ', 'g', ' ', '+', ' ', ' ', ' ', ' ', ' ', '='],//10
         ['+', '+', '+', ' ', '+', 'c', '+', '+', '+', '+', '+', '+', '+', ' ', '+', '+', '+'],//11
         [' ', ' ', '+', 'c', 'c', 'c', 'c', '+', '+', 'c', 'c', '+', 'c', 'c', '+', ' ', ' '],//12
         ['+', '+', '+', 'c', '+', 'c', 'c', 'c', 'c', 'c', 'c', 'c', '+', 'c', '+', '+', '+'],//13
@@ -185,8 +207,5 @@ function newRender() {
     });
     $tbody.html(tbodyHTML)
 }
-
-
 start() //startgame
-console.log(pointBoardText.innerHTML)
 let timeID = setInterval(nextMove, speed)

@@ -39,7 +39,12 @@ img {
     display: flex;
     justify-content: center;
 }
-/* 
-footer {
-    margin: 50px;
-} */
+#play-btn {
+    background-image: url("../images/play-pacmon.png");
+    background-color: rgba(0,0,0,0);
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    width: 100px;
+    height: 100px;    
+} 

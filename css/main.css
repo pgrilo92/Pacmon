@@ -3,6 +3,9 @@
 }
 body {
     text-align: center;
+    color: rgb(21, 50, 90);
+    background-color: #5cff87;
+    font-family: 'Luckiest Guy', cursive;
 }
 .container {
     display: flex;
@@ -14,12 +17,12 @@ table, th, td {
 }
 
 td {
-    width: 23px;
-    height: 23px;
+    width: 30px;
+    height: 30px;
 }
 img {
-    max-width: 20px;
-    max-height: 20px;
+    max-width: 25px;
+    max-height: 25px;
 }
 #pellet img {
     max-width: 10px;

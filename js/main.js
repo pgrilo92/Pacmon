@@ -4,80 +4,60 @@ let speed = 300
 let columnNumber = 10
 let rowNumber = 18
 let gameBoard
-//let isBarrier = false
+let angle = 0
+let gamePoints = 0
+let pointBoardText = document.getElementById('message-text')
+let pointsTextValue = `Points: ${gamePoints}`
+let ghostDirection
+/*----Moving Functions ----*/
+function moveUpFunc() {
+        gameBoard[rowNumber][columnNumber].char = ''
+        rowNumber--
+        gameBoard[rowNumber][columnNumber].char = 'p'
+        newRender()
+        angle = -90;
+        $('#pacmon').css('transform','rotate(' + angle + 'deg)')
+}
+function moveRightFunc() {
+        gameBoard[rowNumber][columnNumber].char = ''
+        columnNumber++
+        gameBoard[rowNumber][columnNumber].char = 'p'
+        newRender()
+        angle = 0;
+        $('#pacmon').css('transform','rotate(' + angle + 'deg)')
+}
+function moveDownFunc () { 
+        gameBoard[rowNumber][columnNumber].char = ''
+        rowNumber++
+        gameBoard[rowNumber][columnNumber].char = 'p'
+        newRender()
+        angle = 90;
+        $('#pacmon').css('transform','rotate(' + angle + 'deg)')
+}
+function moveLeftFunc() {
+        gameBoard[rowNumber][columnNumber].char = ''
+        columnNumber--
+        gameBoard[rowNumber][columnNumber].char = 'p'
+        newRender()
+        $('#pacmon').css('transform','scaleX(-1)');
+}
 
-// class Game {
-//     constructor(name, speed, sprite, alive, columnNumber, rowNumber, timeID, direction) {
-//         this.name = name
-//         this.speed = speed
-//         this.sprite = sprite
-//         this.alive = alive
-//         this.columnNumber = columnNumber
-//         this.rowNumber = rowNumber
-//         this.timeID = timeID 
-//         this.direction = direction
-//     }
-// }
-// class Pacmon extends Game {
-//     constructor(name, speed, sprite, alive, columnNumber, rowNumber, timeID, direction, lives) {
-//         super(name, speed, sprite, alive, columnNumber, rowNumber, timeID, direction)
-//         this.lives = lives
-//     }
-    function moveUpFunc() {
-        if(rowNumber > 0) {
-            rowNumber--
-            let $moveRight = $('#pacmon').detach().appendTo(`#r${rowNumber}c${columnNumber}`).show('slow')
-        } else if(this.rowNumber <= 0) {
-            //clearInterval(timeID)
-        }
-    }
-    function moveRightFunc() {
-        if(columnNumber < 16) {
-            columnNumber++
-            let $moveRight = $('#pacmon').detach().appendTo(`#r${rowNumber}c${columnNumber}`).show('slow')
-        } else if(columnNumber >= 19) {
-            //clearInterval(timeID)
-        }
-    }
-    function moveDownFunc () { 
-        if(rowNumber < 19) {
-            rowNumber++
-            let $moveRight = $('#pacmon').detach().appendTo(`#r${rowNumber}c${columnNumber}`).show('slow')
-        } else if(rowNumber >= 19) {
-            //clearInterval(timeID)
-        }
-    }
-    function moveLeftFunc() {
-        if(columnNumber > 0) {
-            columnNumber--
-            let $moveRight = $('#pacmon').detach().appendTo(`#r${rowNumber}c${columnNumber}`).show('slow')
-        } else if(columnNumber <= 0) {
-            //clearInterval(timeID)
-        }
-    }
-// // }
-// class Cell {
-//     constructor(name, isBarrier) {
-//         this.name = name
-//         this.isBarrier = isBarrier
-//     }
-// }
-/*----- Moving commands for Pacmon -----*/
+/*----- Button inputs for Pacmon -----*/
 document.addEventListener('keydown', (evt)=> {
-    let key = evt.which
-    if(key == 38) {
-        $('#up-btn').trigger('click')
-        return false
-    } else if(key == 39) {
-        $('#right-btn').trigger('click')
-        return false
-    } else if(key == 40) {
-        $('#down-btn').trigger('click')
-        return false
-    } else if(key == 37) {
-        $('#left-btn').trigger('click')
-        return false
-    }
+let key = evt.which
+if (key == 38) {
+    $('#up-btn').trigger('click')
+    return false
+} else if (key == 39) {
+    $('#right-btn').trigger('click')
+    return false
+} else if (key == 40) {
+    $('#down-btn').trigger('click')
+    return false
+} else if (key == 37) {
+    $('#left-btn').trigger('click')
+    return false
+}
 })
 $('#play-btn').on('click', ()=> {
     //pacmon = new Pacmon('pacmon', 300, '/images/pacman.png', true, 10, 18, undefined, 3)
@@ -85,74 +65,69 @@ $('#play-btn').on('click', ()=> {
 })
 $('#up-btn').on('click', ()=> {
     direction = 'up'
-    moveUpFunc()
 })
 $('#right-btn').on('click', ()=> {
     direction = 'right'
-    moveRightFunc()
 })
 $('#down-btn').on('click', ()=> {
     direction = 'down'
-    moveDownFunc()
 })
 $('#left-btn').on('click', ()=> {
     direction = 'left'
-    moveLeftFunc()
 })
+/*----Collision and movement conditions----*/
 function nextMove() {
-    if(direction === 'up') {
-        let innerValue = document.getElementById(`#r${rowNumber - 1}c${columnNumber}`).getAttribute('data-value')
-        if (innerValue === 'isBarrier' ) {
-            return console.log("cant move")
+    if (direction === 'up') {
+        if (gameBoard[rowNumber - 1][columnNumber].char === '+') {
+            return
+        } else if (gameBoard[rowNumber - 1][columnNumber].isPellet) {
+            gameBoard[rowNumber - 1][columnNumber].isPellet = false
+            gamePoints += 100
+            moveUpFunc()
+            pointBoardText.innerHTML = `Points: ${gamePoints}`
         } else {
             moveUpFunc()
         }
-    } else if(direction === 'right') {
-        let innerValue = document.getElementById(`#r${rowNumber}c${columnNumber + 1}`).getAttribute('data-value')
-        if (innerValue=== 'isBarrier') {
-            return console.log("cant move")
+    } else if (direction === 'right') {
+        if (gameBoard[rowNumber][columnNumber + 1].char === '+') {
+            return
+        }  else if (gameBoard[rowNumber][columnNumber + 1].isPellet) {
+            gameBoard[rowNumber][columnNumber + 1].isPellet = false
+            gamePoints += 100
+            moveRightFunc()
+            pointBoardText.innerHTML = `Points: ${gamePoints}`
         } else {
             moveRightFunc()
         }
-    } else if(direction === 'down') {
-        let innerValue = document.getElementById(`#r${rowNumber + 1}c${columnNumber}`).getAttribute('data-value')
-        if ( innerValue=== 'isBarrier') {
-            return console.log("cant move")
+    } else if (direction === 'down') {
+        if( gameBoard[rowNumber + 1][columnNumber].char === '+') {
+            return
+        }  else if (gameBoard[rowNumber + 1][columnNumber].isPellet) {
+            gameBoard[rowNumber + 1][columnNumber].isPellet = false
+            gamePoints += 100
+            moveDownFunc()
+            pointBoardText.innerHTML = `Points: ${gamePoints}`
         } else {
             moveDownFunc()
         }
-    } else if(direction === 'left') {
-        let innerValue = document.getElementById(`#r${rowNumber}c${columnNumber - 1}`).getAttribute('data-value')
-        if (innerValue === 'isBarrier') {
-            return console.log("cant move")
+    } else if (direction === 'left') {
+        if (gameBoard[rowNumber][columnNumber - 1].char === '+') {
+            return
+        }  else if (gameBoard[rowNumber][columnNumber - 1].isPellet) {
+            gameBoard[rowNumber][columnNumber - 1].isPellet = false
+            gamePoints += 100
+            moveLeftFunc()
+            pointBoardText.innerHTML = `Points: ${gamePoints}`
         } else {
-            moveRightFunc()
+            moveLeftFunc()
         }
     }
 }
-/*------Render the board with cell numbers ----*/
-function render() {
-    board.forEach((row, index) => {
-        $('tbody').append(`<tr id='r${index}'></tr>`)
-        row.forEach((cell, cellIndex) => {
-            if(index === 0 && cellIndex === cellIndex || index === 19 && cellIndex === cellIndex) {
-                $(`#r${index}`).append(`<td id="r${index}c${cellIndex}" data-value="isBarrier"><div class='barrier'><img src='images/barrier1.png'></div></td>`)
-            } else if(index === index && cellIndex === 0 || index === index && cellIndex === 16) {
-                $(`#r${index}`).append(`<td id="r${index}c${cellIndex}" data-value="isBarrier"><div class='barrier'><img src='images/barrier1.png'></div></td>`) 
-                //let cellAt[cellIndex]= new Cell('barrier', true)
-            } else {
-                $(`#r${index}`).append(`<td id="r${index}c${cellIndex}" data-value="notBarrier"></td>`)
-            }
-        })
-    })
-    $(`#r${rowNumber}c${columnNumber}`).prepend("<div id='pacmon'><img src='images/pacman.png'>")
-}
-
+/*----Cell intances----*/
 function Cell(char) {
     this.char = char === ' ' || char === 'c' ? '' : char
     this.isPellet = char === 'c'
 }
-
 /*------Start arrary----*/
 function start() {
     board = [
@@ -177,19 +152,12 @@ function start() {
         ['+', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'p', 'c', 'c', 'c', 'c', 'c', '+'],//18
         ['+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+'],//19
     ];
-
     gameBoard = board.map(row => row.map(char => new Cell(char)))
-
-    console.log(gameBoard)
-
-    // render()
+    console.table(board)
+    console.table(gameBoard)
     newRender()
 }
-start()
-let timeID = setInterval(nextMove, speed)
-//  let celly = new Cell(`<td id='r${index}c${cellIndex}'><div class='barrier'><img src='images/barrier1.png'></div></td>`, true, 'images/barrier1.png')
-            //       console.log(cell.element)
-
+/*----- Render board -----*/
 function newRender() {
     let $tbody = $('tbody');
     let tbodyHTML = '';
@@ -201,11 +169,10 @@ function newRender() {
             } else if (cell.char === 'p') {
                 trHTML += `<td id="r${rowIndex}c${cellIndex}"><div id='pacmon'><img src='images/pacmon-open.png'></div></td>`
             } else if (cell.char === 'g') {
-            // add statements for ghost or other chars
                 trHTML += `<td id="r${rowIndex}c${cellIndex}" ><div id='ghost-pink'><img src='images/ghost-pink.png'></div></td>`
             } else {
                 if (cell.isPellet) {
-                    // append the td html for pellet\
+                    // append the td html for pellet
                     trHTML += `<td id="r${rowIndex}c${cellIndex}"><div id='pellet'><img src='images/pellet-1.png'></div></td>`
                 } else {
                     // append
@@ -218,3 +185,8 @@ function newRender() {
     });
     $tbody.html(tbodyHTML)
 }
+
+
+start() //startgame
+console.log(pointBoardText.innerHTML)
+let timeID = setInterval(nextMove, speed)

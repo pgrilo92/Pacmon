@@ -1,8 +1,9 @@
+/*------ Global variables -----*/
 let pacmon
 let direction
-let speed = 300
+let speed = 250
 let columnNumber = 10
-let rowNumber = 18
+let rowNumber = 16
 let gameBoard
 let angle = 0
 let gamePoints = 0
@@ -10,6 +11,7 @@ let pointBoardText = document.getElementById('message-text')
 let ghostDirection
 let ghostCol
 let ghostRow
+let playCoinSound = document.getElementById('coin-sound')
 /*----Moving Functions ----*/
 function moveUpFunc() {
         gameBoard[rowNumber][columnNumber].char = ''
@@ -72,8 +74,13 @@ if (key == 38) {
 }
 })
 $('#play-btn').on('click', ()=> {
-    //pacmon = new Pacmon('pacmon', 300, '/images/pacman.png', true, 10, 18, undefined, 3)
-    //console.log(pacmon)
+    start() //startgame
+    let timeID = setInterval(nextMove, speed)
+    hideElement = document.querySelector('.overlay-class')
+    hideElement.style.display = 'none'
+    soundElement = document.getElementById('game-music')
+    soundElement.play()
+    soundElement.loop = true
 })
 $('#up-btn').on('click', ()=> {
     direction = 'up'
@@ -96,6 +103,7 @@ function nextMove() {
             gameBoard[rowNumber - 1][columnNumber].isPellet = false
             gamePoints += 100
             moveUpFunc()
+            playCoinSound.play()
             pointBoardText.innerHTML = `Points: ${gamePoints}`
         } else {
             moveUpFunc()
@@ -107,6 +115,7 @@ function nextMove() {
             gameBoard[rowNumber][columnNumber + 1].isPellet = false
             gamePoints += 100
             moveRightFunc()
+            playCoinSound.play()
             pointBoardText.innerHTML = `Points: ${gamePoints}`
         }  else if (gameBoard[rowNumber][columnNumber + 1].char === '=') {
             gameBoard[rowNumber][columnNumber].char = ''
@@ -123,6 +132,7 @@ function nextMove() {
             gameBoard[rowNumber + 1][columnNumber].isPellet = false
             gamePoints += 100
             moveDownFunc()
+            playCoinSound.play()
             pointBoardText.innerHTML = `Points: ${gamePoints}`
         } else {
             moveDownFunc()
@@ -134,6 +144,7 @@ function nextMove() {
             gameBoard[rowNumber][columnNumber - 1].isPellet = false
             gamePoints += 100
             moveLeftFunc()
+            playCoinSound.play()
             pointBoardText.innerHTML = `Points: ${gamePoints}`
         }  else if (gameBoard[rowNumber][columnNumber - 1].char === '-') {
             gameBoard[rowNumber][columnNumber].char = ''
@@ -169,10 +180,8 @@ function start() {
         ['+', '+', '+', 'c', '+', 'c', 'c', 'c', 'c', 'c', 'c', 'c', '+', 'c', '+', '+', '+'],//13
         ['+', 'c', 'c', 'c', '+', 'c', '+', '+', '+', '+', '+', 'c', '+', 'c', 'c', 'c', '+'],//14
         ['+', 'c', '+', '+', '+', 'c', 'c', 'c', '+', 'c', 'c', 'c', '+', '+', '+', 'c', '+'],//15
-        ['+', 'c', 'c', 'c', 'c', 'c', 'c', 'c', '+', 'c', 'c', 'c', 'c', 'c', 'c', 'c', '+'],//16
-        ['+', 'c', '+', '+', '+', '+', 'c', '+', '+', '+', 'c', '+', '+', '+', '+', 'c', '+'],//17
-        ['+', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'p', 'c', 'c', 'c', 'c', 'c', '+'],//18
-        ['+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+'],//19
+        ['+', 'c', 'c', 'c', 'c', 'c', 'c', 'c', '+', 'c', 'p', 'c', 'c', 'c', 'c', 'c', '+'],//16
+        ['+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+'],//17
     ];
     gameBoard = board.map(row => row.map(char => new Cell(char)))
     console.table(board)
@@ -207,5 +216,5 @@ function newRender() {
     });
     $tbody.html(tbodyHTML)
 }
-start() //startgame
-let timeID = setInterval(nextMove, speed)
+
+

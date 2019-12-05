@@ -13,6 +13,7 @@
             <h1>Pacmon</h1>
             <h2 id="message-text">Lets get started!</h2>
         </header>
+        <div class="overlay-class"> <button id="play-btn"></button></div>
         <div class="container">
             <table>
                 <tbody>
@@ -26,9 +27,11 @@
                 <button class="arrow-buttons" id="down-btn">Down</button>
                 <button class="arrow-buttons" id="right-btn">Right</button>
             </div>
-            <button id="play-btn"></button>
-            <audio controls>
-                <source src="sounds/GameThemeSong.wav" type="audio/mpeg">
+            <audio id='game-music'>
+                <source src="sounds/GameThemeSong.wav" type="audio/wav">
+            </audio>
+            <audio id='coin-sound'>
+                <source src="sounds/LaunchGame.wav" type="audio/wav">
             </audio>
         </div>
         <script src="js/main.js"></script>

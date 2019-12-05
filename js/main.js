@@ -21,54 +21,39 @@ function moveUpFunc() {
         gameBoard[rowNumber][columnNumber].char = ''
         rowNumber--
         gameBoard[rowNumber][columnNumber].char = 'p'
-       // newRender()
-        angle = -90;
-        $('#pacmon').css('transform','rotate(' + angle + 'deg)')
 }
 function moveRightFunc() {
         gameBoard[rowNumber][columnNumber].char = ''
         columnNumber++
         gameBoard[rowNumber][columnNumber].char = 'p'
-        //newRender()
-        angle = 0;
-        $('#pacmon').css('transform','rotate(' + angle + 'deg)')
 }
 function moveDownFunc () { 
         gameBoard[rowNumber][columnNumber].char = ''
         rowNumber++
         gameBoard[rowNumber][columnNumber].char = 'p'
-        //newRender()
-        angle = 90;
-        $('#pacmon').css('transform','rotate(' + angle + 'deg)')
 }
 function moveLeftFunc() {
         gameBoard[rowNumber][columnNumber].char = ''
         columnNumber--
         gameBoard[rowNumber][columnNumber].char = 'p'
-       // newRender()
-        $('#pacmon').css('transform','scaleX(-1)')
 }
 function moveGhost() {
     if (ghostDirection === 'up') {
         gameBoard[ghostRow][ghostCol].char = ''
         ghostRow --
         gameBoard[ghostRow][ghostCol].char = 'g'
-        //newRender()
     } else if (ghostDirection === 'right') {
         gameBoard[ghostRow][ghostCol].char = ''
         ghostCol ++
         gameBoard[ghostRow][ghostCol].char = 'g'
-        //newRender()
     } else if (ghostDirection === 'down') {
         gameBoard[ghostRow][ghostCol].char = ''
         ghostRow ++
         gameBoard[ghostRow][ghostCol].char = 'g'
-        //newRender()
     } else if (ghostDirection ==='left') {
         gameBoard[ghostRow][ghostCol].char = ''
         ghostCol --
         gameBoard[ghostRow][ghostCol].char = 'g'
-        //newRender()
     }
 }
 /*----- Button inputs for Pacmon -----*/
@@ -115,7 +100,8 @@ function nextMove() {
     newRender()
     if (direction === 'up') {
         if (gameBoard[rowNumber - 1][columnNumber].char === '+') {
-            return
+            angle = -90;
+            $('#pacmon').css('transform','rotate(' + angle + 'deg)')
         } else if (gameBoard[rowNumber - 1][columnNumber].isPellet) {
             gameBoard[rowNumber - 1][columnNumber].isPellet = false
             gamePoints += 100
@@ -125,9 +111,12 @@ function nextMove() {
         } else {
             moveUpFunc()
         }
+        angle = -90;
+        $('#pacmon').css('transform','rotate(' + angle + 'deg)')
     } else if (direction === 'right') {
         if (gameBoard[rowNumber][columnNumber + 1].char === '+') {
-            return
+            angle = 0;
+            $('#pacmon').css('transform','rotate(' + angle + 'deg)')
         }  else if (gameBoard[rowNumber][columnNumber + 1].isPellet) {
             gameBoard[rowNumber][columnNumber + 1].isPellet = false
             gamePoints += 100
@@ -142,9 +131,12 @@ function nextMove() {
         } else {
             moveRightFunc()
         }
+        angle = 0;
+        $('#pacmon').css('transform','rotate(' + angle + 'deg)')
     } else if (direction === 'down') {
         if( gameBoard[rowNumber + 1][columnNumber].char === '+') {
-            return
+            angle = 90;
+            $('#pacmon').css('transform','rotate(' + angle + 'deg)')
         }  else if (gameBoard[rowNumber + 1][columnNumber].isPellet) {
             gameBoard[rowNumber + 1][columnNumber].isPellet = false
             gamePoints += 100
@@ -153,10 +145,12 @@ function nextMove() {
             pointBoardText.innerHTML = `Points: ${gamePoints}`
         } else {
             moveDownFunc()
-        }
+        } 
+        angle = 90;
+        $('#pacmon').css('transform','rotate(' + angle + 'deg)')
     } else if (direction === 'left') {
         if (gameBoard[rowNumber][columnNumber - 1].char === '+') {
-            return
+            $('#pacmon').css('transform','scaleX(-1)')
         }  else if (gameBoard[rowNumber][columnNumber - 1].isPellet) {
             gameBoard[rowNumber][columnNumber - 1].isPellet = false
             gamePoints += 100
@@ -171,6 +165,7 @@ function nextMove() {
         } else {
             moveLeftFunc()
         }
+        $('#pacmon').css('transform','scaleX(-1)')
     }
 }
     function nextMoveGhost() {
@@ -179,8 +174,10 @@ function nextMove() {
             directionArray = ['right', 'down', 'left']
             directionNumber = Math.floor(Math.random() * directionArray.length)
             ghostDirection = directionArray[directionNumber]
-        }else if (gameBoard[ghostRow][ghostCol + 1].char === 'p') {
+        }else if (gameBoard[ghostRow - 1][ghostCol].char === 'p') {
             return
+        } else if (gameBoard[ghostRow - 1][ghostCol + 1].char === 'g') {
+            
         } else {
             moveGhost()
         }
@@ -191,7 +188,14 @@ function nextMove() {
             ghostDirection = directionArray[directionNumber]
         } else if (gameBoard[ghostRow][ghostCol + 1].char === 'p') {
             return
-        } else {
+        } else if (gameBoard[ghostRow][ghostCol + 1].char === '=') {
+            gameBoard[ghostRow][ghostCol].char = ''
+            ghostRow = 10
+            ghostCol = 2
+            gameBoard[ghostRow][ghostCol].char = 'g'
+        } else if (gameBoard[ghostRow][ghostCol + 1].char === 'g') {
+            
+        }  else {
             moveGhost()
         }
     } else if (ghostDirection === 'down') {
@@ -199,8 +203,10 @@ function nextMove() {
             directionArray = ['up', 'right', 'left']
             directionNumber = Math.floor(Math.random() * directionArray.length)
             ghostDirection = directionArray[directionNumber]
-        } else if (gameBoard[ghostRow][ghostCol + 1].char === 'p') {
+        } else if (gameBoard[ghostRow + 1][ghostCol].char === 'p') {
             return
+        } else if (gameBoard[ghostRow + 1][ghostCol].char === 'g') {
+            
         } else {
             moveGhost()
         }
@@ -210,10 +216,16 @@ function nextMove() {
             directionNumber = Math.floor(Math.random() * directionArray.length)
             ghostDirection = directionArray[directionNumber]
             console.log(ghostDirection)
-            moveGhost()
-        } else if (gameBoard[ghostRow][ghostCol + 1].char === 'p') {
+        } else if (gameBoard[ghostRow][ghostCol - 1].char === 'p') {
             return
-        }else {
+        } else if (gameBoard[ghostRow][ghostCol - 1].char === 'g') {
+            
+        } else if (gameBoard[ghostRow][ghostCol - 1].char === '-') {
+                gameBoard[ghostRow][ghostCol].char = ''
+                ghostRow = 10
+                ghostCol = 14
+                gameBoard[ghostRow][ghostCol].char = 'g'
+        } else {
             moveGhost()
         }
     } 

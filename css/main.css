@@ -29,10 +29,11 @@ img {
     max-height: 10px;
 }
 .arrow-buttons {
-    max-width: 40px;
-    max-height: 40px;
-    color: black;
-    background-color: grey;
+    max-width: 50px;
+    max-height: 50px;
+    color: white;
+    background-color: rgb(14, 200, 247);
+    border: none;
 }
 
 .button-row {

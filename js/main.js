@@ -106,6 +106,7 @@ function nextMove() {
     newRender()
     livesText.innerText = `Lives ${lives}`
     pointBoardText.innerHTML = `Points: ${gamePoints}`
+    if(gamePoints > 10000) {gameOver()}
     if (direction === 'up') {
         if (gameBoard[rowNumber - 1][columnNumber].char === '+') {
             angle = -90;
@@ -115,12 +116,6 @@ function nextMove() {
             gamePoints += 100
             moveUpFunc()
             playCoinSound.play()
-        // } else if (gameBoard[rowNumber - 1][columnNumber].char === 'bc') {
-        //     pacmonEatGhost = true
-        //     gamePoints += 100
-        //     <div id='ghost-pink'><img src='images/ghost-pink.png'></div></td>`
-        //     moveUpFunc()
-        //     playCoinSound.play()
         } else if (gameBoard[rowNumber - 1][columnNumber].char === 'g' || gameBoard[rowNumber][columnNumber].char === 'g') {
             collisionWithGhost()
         } else {
@@ -173,7 +168,7 @@ function nextMove() {
             gamePoints += 100
             moveLeftFunc()
             playCoinSound.play()
-        }  else if (gameBoard[rowNumber][columnNumber - 1].char === '-') {
+        } else if (gameBoard[rowNumber][columnNumber - 1].char === '-') {
             gameBoard[rowNumber][columnNumber].char = ''
             rowNumber = 10
             columnNumber = 14
@@ -211,12 +206,21 @@ function collisionWithGhost() {
         ghostRow = 8
         gameBoard[ghostRow][ghostCol].char = 'g'
         pacmonEatGhost = false
+        $("#ghost-pink").attr("src","images/ghost-pink.png")
     }
 }
 function gameOver() {
     /*---- Global variables -----*/
     console.log('gameover')
     clearInterval(timeID)
+    gameOverText = document.querySelector('h1')
+    if(gamePoints > 10000){
+        gameOverText.innerText = 'You Win!'
+        gameOverText.style.color = 'green'
+    } else {
+        gameOverText.innerText = 'Game Over'
+        gameOverText.style.color = 'red'
+    }
     speed = 250
     gamePoints = 0
     gameBoard[rowNumber][columnNumber].char = ''
@@ -232,9 +236,6 @@ function gameOver() {
     ghostCol = 8
     ghostRow = 8
     directionArray = ['up', 'right', 'down', 'left']
-    gameOverText = document.querySelector('h1')
-    gameOverText.innerText = 'Game Over'
-    gameOverText.style.color = 'red'
     hideElement = document.querySelector('.overlay-class')
     hideElement.style.display = 'flex'
     hideElement.style.position = 'absolute'
@@ -337,7 +338,7 @@ function newRender() {
             } else if (cell.char === 'p') {
                 trHTML += `<td id="r${rowIndex}c${cellIndex}"><div id='pacmon'><img src='images/pacmon-open.png'></div></td>`
             } else if (cell.char === 'g') {
-                trHTML += `<td id="r${rowIndex}c${cellIndex}" ><div id='ghost-pink'><img src='images/ghost-pink.png'></div></td>`
+                trHTML += `<td id="r${rowIndex}c${cellIndex}" ><div id='ghost-pink'><img id="ghost-img" src='images/ghost-pink.png'></div></td>`
             }  else if (cell.char === 'bc') {
                 trHTML += `<td id="r${rowIndex}c${cellIndex}" ><div id='eat-ghost'><img src='images/pellet-1.png'></div></td>`
             } else {

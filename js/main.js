@@ -2,17 +2,18 @@
 let speed = 250
 let playCoinSound = document.getElementById('coin-sound')
 let pointBoardText = document.getElementById('message-text')
+let livesText = document.getElementById('lives')
 let gamePoints = 0
 let gameBoard
-let gameOver = false
 //Pacmon Variables
 let columnNumber = 10
 let rowNumber = 16
 let angle = 0
 let pacmonEatGhost = false
 let direction
-let lives = 3
+let lives = 2
 //Ghost Variables
+let timeID
 let ghostDirection = 'up'
 let ghostCol = 8
 let ghostRow = 8
@@ -77,13 +78,16 @@ if (key == 38) {
 })
 $('#play-btn').on('click', ()=> {
     start() //startgame
-    let timeID = setInterval(nextMove, speed)
-    //let timeIDGhost = setInterval(nextMoveGhost, speed)
+    timeID = setInterval(nextMove, speed)
+    gameOverText = document.querySelector('h1')
+    gameOverText.innerText = 'Pacmon'
+    gameOverText.style.color = 'rgb(21, 50, 90)'
     hideElement = document.querySelector('.overlay-class')
     hideElement.style.display = 'none'
     soundElement = document.getElementById('game-music')
     soundElement.play()
     soundElement.loop = true
+
 })
 $('#up-btn').on('click', ()=> {
     direction = 'up'
@@ -100,6 +104,8 @@ $('#left-btn').on('click', ()=> {
 /*----Collision and movement conditions----*/
 function nextMove() {
     newRender()
+    livesText.innerText = `Lives ${lives}`
+    pointBoardText.innerHTML = `Points: ${gamePoints}`
     if (direction === 'up') {
         if (gameBoard[rowNumber - 1][columnNumber].char === '+') {
             angle = -90;
@@ -109,7 +115,12 @@ function nextMove() {
             gamePoints += 100
             moveUpFunc()
             playCoinSound.play()
-            pointBoardText.innerHTML = `Points: ${gamePoints}`
+        // } else if (gameBoard[rowNumber - 1][columnNumber].char === 'bc') {
+        //     pacmonEatGhost = true
+        //     gamePoints += 100
+        //     <div id='ghost-pink'><img src='images/ghost-pink.png'></div></td>`
+        //     moveUpFunc()
+        //     playCoinSound.play()
         } else if (gameBoard[rowNumber - 1][columnNumber].char === 'g' || gameBoard[rowNumber][columnNumber].char === 'g') {
             collisionWithGhost()
         } else {
@@ -126,13 +137,12 @@ function nextMove() {
             gamePoints += 100
             moveRightFunc()
             playCoinSound.play()
-            pointBoardText.innerHTML = `Points: ${gamePoints}`
         }  else if (gameBoard[rowNumber][columnNumber + 1].char === '=') {
             gameBoard[rowNumber][columnNumber].char = ''
             rowNumber = 10
             columnNumber = 1
             gameBoard[rowNumber][columnNumber].char = 'p'
-        } else if (gameBoard[rowNumber][columnNumber + 1].char === 'g' || gameBoard[rowNumber][columnNumber].char === 'g' || gameBoard[rowNumber][columnNumber - 1].char === 'g') {
+        } else if (gameBoard[rowNumber][columnNumber + 1].char === 'g' || gameBoard[rowNumber][columnNumber].char === 'g') {
             collisionWithGhost()
         } else {
             moveRightFunc()
@@ -148,8 +158,7 @@ function nextMove() {
             gamePoints += 100
             moveDownFunc()
             playCoinSound.play()
-            pointBoardText.innerHTML = `Points: ${gamePoints}`
-        } else if (gameBoard[rowNumber + 1][columnNumber].char === 'g' || gameBoard[rowNumber][columnNumber].char === 'g' || gameBoard[rowNumber - 1][columnNumber].char === 'g') {
+        } else if (gameBoard[rowNumber + 1][columnNumber].char === 'g' || gameBoard[rowNumber][columnNumber].char === 'g') {
             collisionWithGhost()
         } else {
             moveDownFunc()
@@ -164,13 +173,12 @@ function nextMove() {
             gamePoints += 100
             moveLeftFunc()
             playCoinSound.play()
-            pointBoardText.innerHTML = `Points: ${gamePoints}`
         }  else if (gameBoard[rowNumber][columnNumber - 1].char === '-') {
             gameBoard[rowNumber][columnNumber].char = ''
             rowNumber = 10
             columnNumber = 14
             gameBoard[rowNumber][columnNumber].char = 'p'
-        } else if (gameBoard[rowNumber][columnNumber - 1].char === 'g' || gameBoard[rowNumber][columnNumber].char === 'g' || gameBoard[rowNumber][columnNumber + 1].char === 'g') {
+        } else if (gameBoard[rowNumber][columnNumber - 1].char === 'g' || gameBoard[rowNumber][columnNumber].char === 'g') {
             collisionWithGhost()
         } else {
             moveLeftFunc()
@@ -181,7 +189,8 @@ function nextMove() {
 }
 function collisionWithGhost() {
     if (lives <= 1) {
-        gameOver = true
+        gameOver()
+
     } else if (pacmonEatGhost === false && lives > 1) {
         gameBoard[rowNumber][columnNumber].char = ''
         rowNumber = 16
@@ -201,23 +210,45 @@ function collisionWithGhost() {
         ghostCol = 8
         ghostRow = 8
         gameBoard[ghostRow][ghostCol].char = 'g'
+        pacmonEatGhost = false
     }
 }
-// function collisionWithPacmon() {
-//     gameBoard[ghostRow][ghostCol].char = ''
-//     ghostDirection = 'up'
-//     ghostCol = 8
-//     ghostRow = 8
-//     gameBoard[ghostRow][ghostCol].char = 'g'
-// }
+function gameOver() {
+    /*---- Global variables -----*/
+    console.log('gameover')
+    clearInterval(timeID)
+    speed = 250
+    gamePoints = 0
+    gameBoard[rowNumber][columnNumber].char = ''
+    gameBoard[ghostRow][ghostCol].char = ''
+    //pacmon Variables
+    columnNumber = 10
+    rowNumber = 16
+    angle = 0
+    pacmonEatGhost = false
+    lives = 1
+    //ghost Variables
+    ghostDirection = 'up'
+    ghostCol = 8
+    ghostRow = 8
+    directionArray = ['up', 'right', 'down', 'left']
+    gameOverText = document.querySelector('h1')
+    gameOverText.innerText = 'Game Over'
+    gameOverText.style.color = 'red'
+    hideElement = document.querySelector('.overlay-class')
+    hideElement.style.display = 'flex'
+    hideElement.style.position = 'absolute'
+    newRender()
+
+}
     function nextMoveGhost() {
     if(ghostDirection === 'up') {
         if (gameBoard[ghostRow - 1][ghostCol].char === '+') {
             directionArray = ['right', 'down', 'left']
             directionNumber = Math.floor(Math.random() * directionArray.length)
             ghostDirection = directionArray[directionNumber]
-        // } else if (gameBoard[ghostRow - 1][ghostCol + 1].char === 'p' || gameBoard[ghostRow][ghostCol].char === 'p') {
-        //     collisionWithPacmon()
+        } else if (gameBoard[ghostRow - 1][ghostCol].char === 'p' || gameBoard[ghostRow][ghostCol].char === 'p') {
+            collisionWithGhost()
         } else {
             moveGhost()
         }
@@ -231,8 +262,8 @@ function collisionWithGhost() {
             ghostRow = 10
             ghostCol = 2
             gameBoard[ghostRow][ghostCol].char = 'g'
-        // } else if (gameBoard[ghostRow][ghostCol + 1].char === 'p' || gameBoard[ghostRow][ghostCol].char === 'p') {
-        //     collisionWithPacmon()
+        } else if (gameBoard[ghostRow][ghostCol + 1].char === 'p' || gameBoard[ghostRow][ghostCol].char === 'p') {
+            collisionWithGhost()
         }  else {
             moveGhost()
         }
@@ -241,8 +272,8 @@ function collisionWithGhost() {
             directionArray = ['up', 'right', 'left']
             directionNumber = Math.floor(Math.random() * directionArray.length)
             ghostDirection = directionArray[directionNumber]
-        // } else if (gameBoard[ghostRow + 1][ghostCol].char === 'p' || gameBoard[ghostRow][ghostCol].char === 'p') {
-        //     collisionWithPacmon()
+        } else if (gameBoard[ghostRow + 1][ghostCol].char === 'p' || gameBoard[ghostRow][ghostCol].char === 'p') {
+            collisionWithGhost()
         } else {
             moveGhost()
         }
@@ -252,8 +283,8 @@ function collisionWithGhost() {
             directionNumber = Math.floor(Math.random() * directionArray.length)
             ghostDirection = directionArray[directionNumber]
             console.log(ghostDirection)
-        // } else if (gameBoard[ghostRow][ghostCol - 1].char === 'p' || gameBoard[ghostRow][ghostCol].char === 'p') {
-        //     collisionWithPacmon()
+        } else if (gameBoard[ghostRow][ghostCol - 1].char === 'p' || gameBoard[ghostRow][ghostCol].char === 'p') {
+                collisionWithGhost()
         } else if (gameBoard[ghostRow][ghostCol - 1].char === '-') {
                 gameBoard[ghostRow][ghostCol].char = ''
                 ghostRow = 10
@@ -273,7 +304,7 @@ function Cell(char) {
 function start() {
     board = [
         ['+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+'],//0
-        ['+', 'c', 'c', 'c', 'c', 'c', 'c', 'c', '+', 'c', 'c', 'c', 'c', 'c', 'c', 'c', '+'],//1
+        ['+', 'bc', 'c', 'c', 'c', 'c', 'c', 'c', '+', 'c', 'c', 'c', 'c', 'c', 'c', 'bc', '+'],//1
         ['+', '+', '+', 'c', '+', 'c', 'c', 'c', '+', 'c', 'c', 'c', 'c', 'c', '+', 'c', '+'],//2
         ['+', 'c', '+', 'c', '+', 'c', '+', 'c', '+', 'c', '+', 'c', '+', 'c', '+', 'c', '+'],//3
         ['+', 'c', 'c', 'c', '+', '+', '+', 'c', '+', 'c', '+', '+', '+', '+', '+', 'c', '+'],//4
@@ -288,7 +319,7 @@ function start() {
         ['+', '+', '+', 'c', '+', 'c', 'c', 'c', 'c', 'c', 'c', 'c', '+', 'c', '+', '+', '+'],//13
         ['+', 'c', 'c', 'c', '+', 'c', '+', '+', '+', '+', '+', 'c', '+', 'c', 'c', 'c', '+'],//14
         ['+', 'c', '+', '+', '+', 'c', 'c', 'c', '+', 'c', 'c', 'c', '+', '+', '+', 'c', '+'],//15
-        ['+', 'c', 'c', 'c', 'c', 'c', 'c', 'c', '+', 'c', 'p', 'c', 'c', 'c', 'c', 'c', '+'],//16
+        ['+', 'bc', 'c', 'c', 'c', 'c', 'c', 'c', '+', 'c', 'p', 'c', 'c', 'c', 'c', 'bc', '+'],//16
         ['+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+'],//17
     ];
     gameBoard = board.map(row => row.map(char => new Cell(char)))
@@ -307,6 +338,8 @@ function newRender() {
                 trHTML += `<td id="r${rowIndex}c${cellIndex}"><div id='pacmon'><img src='images/pacmon-open.png'></div></td>`
             } else if (cell.char === 'g') {
                 trHTML += `<td id="r${rowIndex}c${cellIndex}" ><div id='ghost-pink'><img src='images/ghost-pink.png'></div></td>`
+            }  else if (cell.char === 'bc') {
+                trHTML += `<td id="r${rowIndex}c${cellIndex}" ><div id='eat-ghost'><img src='images/pellet-1.png'></div></td>`
             } else {
                 if (cell.isPellet) {
                     // append the td html for pellet

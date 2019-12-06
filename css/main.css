@@ -53,6 +53,13 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh;
+    height: 80vh;
     width: 95vw;
+}
+.game-score {
+    display: flex;
+    justify-content: center;
+}
+h2{
+    margin: 0px 30px;   
 }

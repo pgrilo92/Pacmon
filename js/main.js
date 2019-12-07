@@ -87,7 +87,6 @@ $('#play-btn').on('click', ()=> {
     soundElement = document.getElementById('game-music')
     soundElement.play()
     soundElement.loop = true
-
 })
 $('#up-btn').on('click', ()=> {
     direction = 'up'
@@ -185,7 +184,6 @@ function nextMove() {
 function collisionWithGhost() {
     if (lives <= 1) {
         gameOver()
-
     } else if (pacmonEatGhost === false && lives > 1) {
         gameBoard[rowNumber][columnNumber].char = ''
         rowNumber = 16
@@ -240,7 +238,6 @@ function gameOver() {
     hideElement.style.display = 'flex'
     hideElement.style.position = 'absolute'
     newRender()
-
 }
     function nextMoveGhost() {
     if(ghostDirection === 'up') {

@@ -12,7 +12,7 @@ let rowNumber = 16
 let angle = 0
 let pacmonEatGhost = false
 let direction
-let lives = 2
+let lives = 3
 //Ghost Variables
 let ghostDirection = 'up'
 let ghostCol = 8
@@ -85,7 +85,7 @@ function pacmonRight() {
         gameBoard[rowNumber][columnNumber].char = 'p'
     } else if (gameBoard[rowNumber][columnNumber + 1].char === 'g' || gameBoard[rowNumber][columnNumber].char === 'g') {
         collisionWithGhost()
-    } else if (gameBoard[rowNumber][columnNumber +1].isPowerBoost) {
+    } else if (gameBoard[rowNumber][columnNumber + 1].isPowerBoost) {
         gameBoard[rowNumber][columnNumber + 1].isPowerBoost = false
         pacmonEatGhost = true
         pacmonCoinCollision()
@@ -177,18 +177,17 @@ $('#down-btn').on('click', ()=> {
 $('#left-btn').on('click', ()=> {
     direction = 'left'
 })
-
 /*----Update Function----*/
 function nextMove() {
     newRender()
     livesText.innerText = `Lives ${lives}`
     pointBoardText.innerHTML = `Points: ${gamePoints}`
     if(gamePoints > 10000) gameOver()
-    if(pacmonEatGhost === true) {
+    if(pacmonEatGhost === false) {
+        ghostColor = 'images/ghost-pink.png'
+    } else if (pacmonEatGhost === true) {
         ghostColor = 'images/ghost-dark-blue.png'
         setTimeout(() => pacmonEatGhost = false, 10000) //timeout for the time in which you can eat pacmon
-    } else if (pacmonEatGhost === false) {
-        ghostColor = 'images/ghost-pink.png'
     }
     if (direction === 'up') {
         pacmonUp()
@@ -279,7 +278,6 @@ function collisionWithGhost() {
         gameBoard[ghostRow][ghostCol].char = 'g'
     }
 }
-
 /*------Reset Variables Once Game is Over-----*/
 function gameOver() {
     clearInterval(timeID)
@@ -300,7 +298,7 @@ function gameOver() {
     rowNumber = 16
     angle = 0
     pacmonEatGhost = false
-    lives = 1
+    lives = 3
     //ghost Variables
     ghostDirection = 'up'
     ghostCol = 8
@@ -311,7 +309,6 @@ function gameOver() {
     hideElement.style.position = 'absolute'
     newRender()
 }
-
 /*----Cell intances----*/
 function Cell(char) {
     this.char = char === ' ' || char === 'c' || char === 'bc' ? '' : char

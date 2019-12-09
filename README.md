@@ -10,6 +10,7 @@ In this project I will be recreating my own version of the classic game Pacman. 
 2. Four ghosts
 3. The standard gamebox for pacman
 4. Local Sprites will be available
+5. This game was used JavaScript, HTML, CSS, jQuery, and Adobe
 
 ## Instructions
 
@@ -21,6 +22,11 @@ In this project I will be recreating my own version of the classic game Pacman. 
 - Fruits might pop up randomly which will give Pacmon extra points
 - When 10000 pts are reached, pacmon will be given another life once
 - Ghost names: Inky, Pinky, Blinky and Clyde
+- Play the game on the following link https://pgrilo92.github.io/pacmon/
+
+### Next Steps
+- Add multiple ghosts
+- Add animations (i.e open and close pacmon mouth)
 
 ### Pulling
 Code will be available for anyone to pull.

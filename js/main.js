@@ -14,12 +14,26 @@ let pacmonEatGhost = false
 let direction
 let lives = 2
 //Ghost Variables
-let ghostDirection = 'up'
-let ghostCol = 8
-let ghostRow = 8
-let directionNumber
-let directionArray = ['up', 'right', 'down', 'left']
-let ghostColor
+// let ghostDirection = 'up'
+// let ghostCol = 8
+// let ghostRow = 8
+// let directionNumber
+// let directionArray = ['up', 'right', 'down', 'left']
+// let ghostColor
+class Ghost {
+    constructor(name, ghostColor, ghostRowNumber, ghostColumnNumber) { 
+        this.name = name
+        this.ghostColor = ghostColor
+        this.ghostRowNumber = ghostRowNumber
+        this.ghostColumnNumber = ghostColumnNumber
+        ghostDirection = 'up'
+        directionArray = ['up', 'right', 'down', 'left']
+    }
+}
+pinkGhost = new Ghost('pink-ghost', 'images/ghost-pink.png', 8, 7)
+blueGhost = new Ghost('blue-ghost', 'images/ghost-light-blue.png', 8, 8)
+redGhost = new Ghost('red-ghost', 'images/ghost-red.png', 8, 9)
+greenGhost = new Ghost('green-ghost', 'images/ghost-green.png', 9, 8)
 /*----Moving Functions ----*/
 function movePacmon() {
         gameBoard[rowNumber][columnNumber].char = ''
@@ -329,8 +343,8 @@ function start() {
         ['+', 'c', '+', '+', '+', 'c', 'c', 'c', 'c', 'c', 'c', 'c', '+', 'c', 'c', 'c', '+'],//5
         ['+', 'c', 'c', 'c', '+', 'c', 'c', '+', '+', '+', 'c', 'c', '+', 'c', 'c', 'c', '+'],//6
         ['+', '+', '+', 'c', '+', 'c', ' ', ' ', ' ', ' ', ' ', 'c', '+', 'c', '+', '+', '+'],//7
-        [' ', ' ', '+', ' ', ' ', 'c', '+', ' ', 'g', ' ', '+', ' ', '+', ' ', '+', ' ', ' '],//8
-        ['+', '+', '+', ' ', ' ', 'c', '+', ' ', ' ', ' ', '+', ' ', ' ', ' ', '+', '+', '+'],//9
+        [' ', ' ', '+', ' ', ' ', 'c', '+', 'gp', 'gb', 'gr', '+', ' ', '+', ' ', '+', ' ', ' '],//8
+        ['+', '+', '+', ' ', ' ', 'c', '+', ' ', 'gg', ' ', '+', ' ', ' ', ' ', '+', '+', '+'],//9
         ['-', ' ', ' ', ' ', ' ', 'c', '+', ' ', ' ', ' ', '+', ' ', ' ', ' ', ' ', ' ', '='],//10
         ['+', '+', '+', ' ', '+', 'c', '+', '+', '+', '+', '+', '+', '+', ' ', '+', '+', '+'],//11
         [' ', ' ', '+', 'c', 'c', 'c', 'c', '+', '+', 'c', 'c', '+', 'c', 'c', '+', ' ', ' '],//12
@@ -354,9 +368,15 @@ function newRender() {
                 trHTML += `<td id="r${rowIndex}c${cellIndex}"><div class='barrier'><img src='images/barrier-2.png'></div></td>`
             } else if (cell.char === 'p') {
                 trHTML += `<td id="r${rowIndex}c${cellIndex}"><div id='pacmon'><img src='images/pacmon-open.png'></div></td>`
-            } else if (cell.char === 'g') {
-                trHTML += `<td id="r${rowIndex}c${cellIndex}" ><div id='ghost-pink'><img id="ghost-img" src='${ghostColor}'></div></td>`
-            }  else {
+            } else if (cell.char === 'gp') {
+                trHTML += `<td id="r${rowIndex}c${cellIndex}" ><div id='ghost-pink'><img id="ghost-img" src='${pinkGhost.ghostColor}'></div></td>`
+            } else if (cell.char === 'gg') {
+                trHTML += `<td id="r${rowIndex}c${cellIndex}" ><div id='ghost-pink'><img id="ghost-img" src='${greenGhost.ghostColor}'></div></td>`
+            } else if (cell.char === 'gb') {
+                trHTML += `<td id="r${rowIndex}c${cellIndex}" ><div id='ghost-pink'><img id="ghost-img" src='${blueGhostghostColor}'></div></td>`
+            } else if (cell.char === 'gr') {
+                trHTML += `<td id="r${rowIndex}c${cellIndex}" ><div id='ghost-pink'><img id="ghost-img" src='${redghost.ghostColor}'></div></td>`
+            } else {
                 if (cell.isPellet) {
                     // append the td html for pellet
                     trHTML += `<td id="r${rowIndex}c${cellIndex}"><div id='pellet'><img src='images/pellet-1.png'></div></td>`
